@@ -11,6 +11,7 @@
   let dataArray: Uint8Array
   let canvasEl: HTMLCanvasElement
   let xDistance = 250
+  $: isMobile = window.innerWidth < 560
   const bars = 128
 
   function initGraphics() {
@@ -137,9 +138,10 @@
         `hsl(${Math.random() * 200 + 150}, ${(1 - Math.random()) * 60 + 40}%, ${Math.random() * 30 + 20}%)`
       )
     }
-    g.drawCircle(0, 0, Math.random() * 150 + 5)
+    g.drawCircle(0, 0, Math.random() * (isMobile ? 60 : 150) + 5)
     g.endFill()
-    g.x = Math.random() * 200 - 100 + width / 2
+    const offsetX = isMobile ? 200 : 50
+    g.x = Math.random() * offsetX - offsetX * 0.5 + width / 2
     g.y = Math.random() * height
     g.alpha = Math.random() * 0.3 + 0.6
     g.blendMode = PIXI.BLEND_MODES.ADD
@@ -209,6 +211,8 @@
   main {
     position: relative;
     height: 100%;
+    width: 100vw;
+    overflow: hidden;
     flex: 1;
     display: flex;
     align-items: center;
@@ -221,16 +225,16 @@
   h1 {
     position: relative;
     z-index: 1;
-    font-size: 10rem;
+    font-size: 4rem;
     margin: 0;
     line-height: 1;
     font-family: 'Zen Dots';
   }
   h2 {
-    font-size: 3rem;
+    font-size: 1.5rem;
   }
   h3 {
-    font-size: 1.25rem;
+    font-size: 1rem;
   }
   h1,
   h2,
@@ -245,6 +249,17 @@
     font-weight: normal;
     margin: 0 0 60px;
     opacity: 0.75;
+  }
+  @media (min-width: 560px) {
+    h1 {
+      font-size: 10rem;
+    }
+    h2 {
+      font-size: 3rem;
+    }
+    h3 {
+      font-size: 1.25rem;
+    }
   }
   .isPlaying audio {
     display: block;

@@ -174,16 +174,12 @@
   })
 
   function play() {
-    music.src = '/Delayed_Gratification_v4.m4a'
+    music.play()
+    music.volume = 1
+    isPlaying = true
 
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)()
     let audioSource = null
-
-    music.addEventListener('canplay', () => {
-      music.play()
-      music.volume = 1
-      isPlaying = true
-    })
     audioSource = audioCtx.createMediaElementSource(music)
     analyser = audioCtx.createAnalyser()
     audioSource.connect(analyser)
@@ -201,7 +197,7 @@
     <h1>j.Falcon</h1>
     <h2>Delayed Gratification</h2>
     <h3>Sep 1, 2023</h3>
-    <audio id="audio" controls bind:this={music} />
+    <audio id="audio" controls bind:this={music} src="/Delayed_Gratification_v4.m4a" />
     {#if !isPlaying}
       <button on:click={play}><Play /></button>
     {/if}

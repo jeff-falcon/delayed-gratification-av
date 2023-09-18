@@ -198,15 +198,17 @@
 	});
 
 	function play() {
-		if (music && audioSource && $audioContext && $analyser) {
+		if (music) {
 			music.play();
 			music.volume = 1;
 
-			audioSource.connect($analyser);
-			$analyser.connect($audioContext.destination);
+			if (audioSource && $audioContext && $analyser) {
+				audioSource.connect($analyser);
+				$analyser.connect($audioContext.destination);
 
-			bufferLength = $analyser.frequencyBinCount;
-			dataArray = new Uint8Array(bufferLength);
+				bufferLength = $analyser.frequencyBinCount;
+				dataArray = new Uint8Array(bufferLength);
+			}
 		} else {
 			console.log('no music');
 		}
@@ -215,7 +217,7 @@
 		currentTrack = track;
 		music?.pause();
 		music = audio.audioEl;
-		audioSource = audio.audioSource;
+		//audioSource = audio.audioSource;
 		for (const t of tracks) {
 			if (t === track) t.isPlaying = true;
 			else t.isPlaying = false;

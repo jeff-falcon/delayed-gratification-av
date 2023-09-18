@@ -77,9 +77,11 @@
 		}
 
 		if (!audioSource && $audioContext && audioEl) {
-			audioSource = $audioContext.createMediaElementSource(audioEl);
+			if (!navigator.userAgent.includes('AppleWebKit/605.1.15')) {
+				audioSource = $audioContext.createMediaElementSource(audioEl);
+			}
 		}
-		if (audioEl && audioSource) {
+		if (audioEl) {
 			if (!isPlaying) {
 				dispatch('play', { audioEl, audioSource });
 			} else {

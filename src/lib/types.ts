@@ -9,5 +9,5 @@ export interface Track {
 
 export interface TrackAudio {
   audioEl: HTMLAudioElement;
-  audioSource: MediaElementAudioSourceNode;
+  audioSource: MediaElementAudioSourceNode | null;
 }

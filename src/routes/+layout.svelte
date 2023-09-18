@@ -13,6 +13,10 @@
 	}); */
 </script>
 
+<svelte:head>
+	<meta name="description" content="Original music from Jeff Falcon" />
+</svelte:head>
+
 <main>
 	<slot />
 </main>

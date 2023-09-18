@@ -4,6 +4,8 @@
 	import { createEventDispatcher, onMount } from 'svelte';
 	import Play from './Play.svelte';
 	import { analyser, audioContext, bars } from '$lib/store';
+	import { getDatabase, ref, runTransaction } from '@firebase/database';
+	import { trackEvent } from '$lib/firebase';
 
 	export let track: Track;
 	export let isPlaying = false;
@@ -29,6 +31,25 @@
 		return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
 	}
 
+	function updatePlayCount(completed = false) {
+		const db = getDatabase();
+		const trackRef = ref(db, `tracks/${track.id}/${completed ? 'completedPlays' : 'plays'}`);
+		runTransaction(trackRef, (plays) => {
+			if (plays) {
+				return plays + 1;
+			} else {
+				return 1;
+			}
+		});
+		if (!completed) {
+			trackEvent(`play-${track.id}`);
+			trackEvent(`play`, { label: track.name });
+		} else {
+			trackEvent(`complete-${track.id}`);
+			trackEvent(`complete`, { label: track.name });
+		}
+	}
+
 	let audioFile = '';
 
 	const dispatch = createEventDispatcher<{ play: TrackAudio; end: void }>();
@@ -37,6 +58,10 @@
 		audioFile = track.file;
 		audioEl?.addEventListener('ended', () => {
 			dispatch('end');
+			updatePlayCount(true);
+			setTimeout(() => {
+				didPlay = false;
+			}, 100);
 		});
 	});
 
@@ -61,6 +86,9 @@
 			} else {
 				audioEl.pause();
 			}
+		}
+		if (!didPlay) {
+			updatePlayCount();
 		}
 		didPlay = true;
 	}
@@ -107,7 +135,11 @@
 			<Play {isPlaying} />
 		</div>
 		<h3 class="name">{track.name}</h3>
-		<div class="time">{timeFormatted} / {durationFormatted}</div>
+		<div class="time">
+			{#if didPlay && isSelected}
+				{timeFormatted} /
+			{/if}{durationFormatted}
+		</div>
 		<audio
 			controls
 			bind:this={audioEl}
@@ -219,7 +251,7 @@
 		overflow: hidden;
 		visibility: hidden;
 	}
-	.didPlay .scrub {
+	.didPlay.isSelected .scrub {
 		visibility: visible;
 	}
 	.name {

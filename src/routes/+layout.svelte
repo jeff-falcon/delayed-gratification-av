@@ -1,16 +1,18 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import './app.css';
-	import { audioContext, analyser, bars } from '$lib/store';
+	import { ga } from '$lib/store';
+	import { initializeApp } from '@firebase/app';
+	import { getAnalytics, logEvent } from '@firebase/analytics';
+	import { firebaseConfig, trackEvent } from '$lib/firebase';
 
-	/* onMount(() => {
-		const ctx = new (window.AudioContext || window.webkitAudioContext)();
-		audioContext.set(ctx);
-		const a = $audioContext!.createAnalyser();
-		a.fftSize = bars;
-		a.smoothingTimeConstant = 0.95;
-		analyser.set(a);
-	}); */
+	const app = initializeApp(firebaseConfig);
+
+	onMount(() => {
+		const analytics = getAnalytics(app);
+		ga.set(analytics);
+		trackEvent('page_view');
+	});
 </script>
 
 <svelte:head>

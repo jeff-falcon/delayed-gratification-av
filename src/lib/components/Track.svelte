@@ -117,7 +117,9 @@
 	}
 	function jumpToPosition(e: MouseEvent) {
 		if (audioEl) {
-			audioEl.currentTime = (scrubPct / 100) * duration;
+			const t = (scrubPct / 100) * duration;
+			audioEl.currentTime = t;
+			trackEvent(`seek`, { label: track.name, time: Math.round(t) });
 		}
 	}
 </script>

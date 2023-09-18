@@ -139,8 +139,9 @@
 		<h3 class="name">{track.name}</h3>
 		<div class="time">
 			{#if didPlay && isSelected}
-				{timeFormatted} /
-			{/if}{durationFormatted}
+				<span class="current">{timeFormatted}</span>
+				<span class="divider" />
+			{/if}<span class="duration">{durationFormatted}</span>
 		</div>
 		<audio
 			controls
@@ -226,7 +227,7 @@
 	}
 	.playhead {
 		width: 1px;
-		background: rgba(255, 255, 255, 0.5);
+		background: transparent;
 		top: 0;
 		bottom: 0;
 		position: absolute;
@@ -279,6 +280,24 @@
 		font-family: 'Share Tech Mono', monospace;
 		line-height: 1;
 		font-size: 12px;
+		display: flex;
+		gap: 8px;
+		align-items: center;
+	}
+	.time .divider {
+		display: inline-block;
+		height: 20px;
+		width: 1px;
+		background: white;
+	}
+	.isPlaying .time .current ~ .duration,
+	.isPlaying .time .current ~ .divider {
+		display: none;
+	}
+	.isPlaying.isScrubbing .time .divider,
+	.isPlaying.isScrubbing .time .duration {
+		opacity: 0.5;
+		display: inline-block;
 	}
 	@media (min-width: 560px) {
 		.time {

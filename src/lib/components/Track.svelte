@@ -77,7 +77,6 @@
 		}
 
 		if (!audioSource && $audioContext && audioEl) {
-			console.log('creating audio source');
 			audioSource = $audioContext.createMediaElementSource(audioEl);
 		}
 		if (audioEl && audioSource) {

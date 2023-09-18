@@ -16,30 +16,44 @@
 	let dataArray: Uint8Array;
 	let canvasEl: HTMLCanvasElement;
 	let xDistance = 250;
-	let innerWidth = 375;
-	let innerHeight = 650;
-	let devicePixelRatio = 2;
+	let innerWidth = typeof window === 'undefined' ? 393 : window.innerWidth;
+	let innerHeight = typeof window === 'undefined' ? 660 : window.innerHeight;
 
 	$: isMobile = innerWidth < 560;
+
+	function getResolution() {
+		const devicePixelRatio = typeof window === 'undefined' ? 2 : window.devicePixelRatio;
+		return Math.min(2, devicePixelRatio);
+	}
+
+	function getCanvasSize() {
+		const main = document.querySelector('main');
+		const size = {
+			width: main?.clientWidth ?? window.innerWidth,
+			height: main?.clientHeight ?? window.innerHeight
+		};
+		return size;
+	}
 
 	function initGraphics() {
 		const app = new PIXI.Application({
 			background: '#002',
 			antialias: true,
-			resolution: Math.min(2, devicePixelRatio),
+			resolution: getResolution(),
 			view: canvasEl,
-			width: innerWidth,
-			height: innerHeight
+			width: getCanvasSize().width,
+			height: getCanvasSize().height
 		});
 		const stageSize = {
 			width: app.screen.width,
 			height: app.screen.height
 		};
 		window.addEventListener('resize', () => {
-			stageSize.width = innerWidth;
-			stageSize.height = innerHeight;
-			app.view.width = innerWidth * devicePixelRatio;
-			app.view.height = innerHeight * devicePixelRatio;
+			const { width, height } = getCanvasSize();
+			stageSize.width = width;
+			stageSize.height = height;
+			app.view.width = width * getResolution();
+			app.view.height = height * getResolution();
 		});
 
 		document.body.append(app.view as HTMLCanvasElement);
@@ -178,7 +192,9 @@
 	}
 
 	onMount(() => {
-		initGraphics();
+		setTimeout(() => {
+			initGraphics();
+		}, 100);
 	});
 
 	function play() {
@@ -217,7 +233,7 @@
 	}
 </script>
 
-<svelte:window bind:innerWidth bind:innerHeight bind:devicePixelRatio />
+<svelte:window bind:innerWidth bind:innerHeight />
 
 <div class="wrap">
 	<div class="text">

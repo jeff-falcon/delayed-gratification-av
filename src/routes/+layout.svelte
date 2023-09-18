@@ -26,7 +26,8 @@
 <style>
 	main {
 		position: relative;
-		height: 100%;
+		height: 100vh;
+		height: 100svh;
 		width: 100vw;
 		overflow: hidden;
 		flex: 1;

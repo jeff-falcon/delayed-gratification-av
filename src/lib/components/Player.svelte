@@ -19,7 +19,6 @@
 
 	function loadAudio() {
 		duration = audioEl!.duration;
-		console.log('audio loaded');
 	}
 	afterNavigate(() => {
 		audioFile = currentTrack?.file ?? '';

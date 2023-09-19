@@ -81,6 +81,7 @@
 				!navigator.userAgent.includes('Mobile/15E148 Safari/604.1') &&
 				!navigator.userAgent.includes('iPhone OS 17_0')
 			) {
+				console.log('audioSource created');
 				audioSource = $audioContext.createMediaElementSource(audioEl);
 			}
 		}

@@ -217,7 +217,7 @@
 		currentTrack = track;
 		music?.pause();
 		music = audio.audioEl;
-		//audioSource = audio.audioSource;
+		audioSource = audio.audioSource;
 		for (const t of tracks) {
 			if (t === track) t.isPlaying = true;
 			else t.isPlaying = false;

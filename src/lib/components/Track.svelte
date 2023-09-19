@@ -77,7 +77,10 @@
 		}
 
 		if (!audioSource && $audioContext && audioEl) {
-			if (!navigator.userAgent.includes('AppleWebKit/605.1.15')) {
+			if (
+				!navigator.userAgent.includes('Mobile/15E148 Safari/604.1') &&
+				!navigator.userAgent.includes('iPhone OS 17_0')
+			) {
 				audioSource = $audioContext.createMediaElementSource(audioEl);
 			}
 		}

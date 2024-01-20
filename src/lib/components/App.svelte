@@ -160,17 +160,17 @@
 		}
 		g.drawCircle(0, 0, Math.random() * (isMobile ? 60 : 150) + 5);
 		g.endFill();
-		const offsetX = isMobile ? 200 : 50;
+		const offsetX = isMobile ? 200 : window.innerWidth * 0.7;
 		g.x = Math.random() * offsetX - offsetX * 0.5 + width / 2;
-		g.y = Math.random() * height;
+		g.y = window.innerHeight + (Math.random() * 400 - 200);
 		g.alpha = Math.random() * 0.3 + 0.6;
 		g.blendMode = PIXI.BLEND_MODES.ADD;
-		//    g.filters = [new PIXI.BlurFilter(Math.random() * 15)]
+		//g.filters = Math.random() < 0.2 ? [new PIXI.BlurFilter(Math.random() * 15)] : [];
 		container.addChild(g);
 		gsap.to(g, {
 			alpha: 0,
 			duration: 3,
-			x: g.x + (Math.random() < 0.5 ? 1 : -1) * xDistance,
+			x: window.innerWidth / 2,
 			ease: 'quad.in',
 			onComplete: () => {
 				container.removeChild(g);
@@ -179,8 +179,8 @@
 		gsap.to(g, {
 			alpha: 0,
 			duration: 3,
-			y: g.y + (Math.random() < 0.2 ? 1 : -1) * 400,
-			ease: 'quint.in'
+			y: g.y + -0.8 * window.innerHeight,
+			ease: 'quart.in'
 		});
 		gsap.from(g.scale, {
 			x: 0.65,

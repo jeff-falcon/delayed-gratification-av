@@ -4,7 +4,7 @@ export const tracks: Track[] = [
 	{
 		id: 'gtnw',
 		name: 'GTNW',
-		file: '/GTNW.m4a',
+		file: '/GTNW.m4a?winorlose',
 		isPlaying: false,
 		released: 'January 20th, 2024',
 		hue: 5

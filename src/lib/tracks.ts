@@ -2,9 +2,17 @@ import type { Track } from './types';
 
 export const tracks: Track[] = [
 	{
+		id: 'club-foot',
+		name: 'Club Foot',
+		file: '/Club_Foot.m4a',
+		isPlaying: false,
+		released: 'March 26th, 2024',
+		hue: 180
+	},
+	{
 		id: 'gtnw',
 		name: 'GTNW',
-		file: '/GTNW.m4a?winorlose',
+		file: '/GTNW.m4a',
 		isPlaying: false,
 		released: 'January 20th, 2024',
 		hue: 5
